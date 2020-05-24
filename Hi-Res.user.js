@@ -2,10 +2,10 @@
 // @name         Hi-Res
 // @namespace    http://tampermonkey.net/
 // @run-at       document-end
-// @version      5.0.1
+// @version      5.0.2
 // @description  no more blocky blur
 // @author       SArpnt
-// @match        https://play.boxcritters.com/
+// @match        https://play.boxcritters.com/*
 // @grant        none
 // @require      https://raw.githubusercontent.com/SArpnt/joinFunction/master/script.js
 // ==/UserScript==
