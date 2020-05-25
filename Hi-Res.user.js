@@ -2,7 +2,7 @@
 // @name         Hi-Res
 // @namespace    http://tampermonkey.net/
 // @run-at       document-end
-// @version      5.0.2
+// @version      5.0.3
 // @description  no more blocky blur
 // @author       SArpnt
 // @match        https://play.boxcritters.com/*
@@ -51,8 +51,8 @@
 	}
 	function onWorld() {
 		let e = world.stage;
-		e.hX = world.stage.y;
-		e.hY = world.stage.x;
+		e.hX = e.x;
+		e.hY = e.y;
 		e.hXPx = 0;
 		e.hYPx = 0;
 
