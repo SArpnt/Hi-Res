@@ -1,18 +1,21 @@
 // ==UserScript==
 // @name         Hi-Res
 // @namespace    http://tampermonkey.net/
-// @run-at       document-end
-// @version      5.0.3
+// @run-at       document-start
+// @version      5.1.3
 // @description  no more blocky blur
 // @author       SArpnt
 // @match        https://play.boxcritters.com/*
 // @grant        none
-// @require      https://raw.githubusercontent.com/SArpnt/joinFunction/master/script.js
+// @require      https://code.jquery.com/jquery-3.5.1.min.js
+// @require      https://cdn.jsdelivr.net/gh/sarpnt/joinFunction/script.min.js
+// @require      https://cdn.jsdelivr.net/gh/sarpnt/EventHandler/script.min.js
+// @require      https://cdn.jsdelivr.net/gh/boxcritters/cardboard/script.user.min.js
 // ==/UserScript==
 
 (function () {
 	'use strict';
-	function onLogin() {
+	cardboard.on('login', function () {
 		var resUpdate = function () {
 			let stage = world.stage;
 			let canvas = stage.canvas;
@@ -48,8 +51,9 @@
 		window.addEventListener('resize', resUpdate);
 		world.stage.hUpdate = resUpdate;
 		resUpdate();
-	}
-	function onWorld() {
+	})
+
+	cardboard.on('worldStageCreated', function () {
 		let e = world.stage;
 		e.hX = e.x;
 		e.hY = e.y;
@@ -67,11 +71,5 @@
 		e.hCanvasHeight = e.height;
 
 		e.hiRes = true;
-
-		world.socket.on('connect', onLogin);
-	}
-
-	if (typeof world == 'undefined') {
-		console.warn('hi-res --- no world!');
-	} else onWorld();
+	})
 })();
