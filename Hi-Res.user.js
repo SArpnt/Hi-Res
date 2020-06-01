@@ -2,21 +2,51 @@
 // @name         Hi-Res
 // @namespace    http://tampermonkey.net/
 // @run-at       document-start
-// @version      5.1.3
+// @version      5.2.0
 // @description  no more blocky blur
 // @author       SArpnt
 // @match        https://play.boxcritters.com/*
 // @grant        none
 // @require      https://code.jquery.com/jquery-3.5.1.min.js
-// @require      https://cdn.jsdelivr.net/gh/sarpnt/joinFunction/script.min.js
-// @require      https://cdn.jsdelivr.net/gh/sarpnt/EventHandler/script.min.js
-// @require      https://cdn.jsdelivr.net/gh/boxcritters/cardboard/script.user.min.js
+// @require      https://github.com/sarpnt/joinFunction/raw/master/script.js
+// @require      https://github.com/sarpnt/EventHandler/raw/master/script.js
+// @require      https://github.com/boxcritters/cardboard/raw/master/script.user.js
 // ==/UserScript==
 
 (function () {
 	'use strict';
 	cardboard.on('login', function () {
-		var resUpdate = function () {
+		world.stage.cache = joinFunction(world.stage.cache, world.stage.hUpdate) \
+		window.addEventListener('resize', world.stage.hUpdate);
+		world.stage.hUpdate();
+	});
+	cardboard.on('runScriptShowGame', function () {
+		showGame = joinFunction(showGame, function () {
+			world.stage.hXPx = $('#game').width();
+			world.stage.hWidthPx = -world.stage.hXPx;
+			world.stage.hUpdate();
+			world.stage.room.focus();
+		});
+	});
+	cardboard.on('worldStageCreated', function () {
+		let e = world.stage;
+		e.hX = e.x;
+		e.hY = e.y;
+		e.hXPx = 0;
+		e.hYPx = 0;
+
+		e.hWidth = e.width;
+		e.hHeight = e.height;
+		e.hWidthPx = 0;
+		e.hHeightPx = 0;
+
+		e.hScale = 1;
+
+		e.hCanvasWidth = e.width;
+		e.hCanvasHeight = e.height;
+
+		e.hiRes = true;
+		e.hUpdate = function () {
 			let stage = world.stage;
 			let canvas = stage.canvas;
 
@@ -37,39 +67,5 @@
 
 			if (stage.bitmapCache) stage.bitmapCache.scale = stage.hScale;
 		};
-		let old2 = world.stage.cache;
-		world.stage.cache = function (...i) {
-			old2.call(world.stage, ...i);
-			resUpdate();
-		};
-		showGame = joinFunction(showGame, function () {
-			world.stage.hXPx = $('#game').width();
-			world.stage.hWidthPx = -world.stage.hXPx;
-			resUpdate();
-			world.stage.room.focus();
-		});
-		window.addEventListener('resize', resUpdate);
-		world.stage.hUpdate = resUpdate;
-		resUpdate();
-	})
-
-	cardboard.on('worldStageCreated', function () {
-		let e = world.stage;
-		e.hX = e.x;
-		e.hY = e.y;
-		e.hXPx = 0;
-		e.hYPx = 0;
-
-		e.hWidth = e.width;
-		e.hHeight = e.height;
-		e.hWidthPx = 0;
-		e.hHeightPx = 0;
-
-		e.hScale = 1;
-
-		e.hCanvasWidth = e.width;
-		e.hCanvasHeight = e.height;
-
-		e.hiRes = true;
-	})
+	});
 })();
