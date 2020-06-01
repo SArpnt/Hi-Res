@@ -2,7 +2,7 @@
 // @name         Hi-Res
 // @namespace    http://tampermonkey.net/
 // @run-at       document-start
-// @version      5.2.0
+// @version      5.2.1
 // @description  no more blocky blur
 // @author       SArpnt
 // @match        https://play.boxcritters.com/*
@@ -16,7 +16,7 @@
 (function () {
 	'use strict';
 	cardboard.on('login', function () {
-		world.stage.cache = joinFunction(world.stage.cache, world.stage.hUpdate) \
+		world.stage.cache = joinFunction(world.stage.cache, world.stage.hUpdate)
 		window.addEventListener('resize', world.stage.hUpdate);
 		world.stage.hUpdate();
 	});
