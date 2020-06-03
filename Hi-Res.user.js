@@ -2,7 +2,7 @@
 // @name         Hi-Res
 // @namespace    http://tampermonkey.net/
 // @run-at       document-start
-// @version      5.2.1
+// @version      5.3.0
 // @description  no more blocky blur
 // @author       SArpnt
 // @match        https://play.boxcritters.com/*
@@ -16,7 +16,7 @@
 (function () {
 	'use strict';
 	cardboard.on('login', function () {
-		world.stage.cache = joinFunction(world.stage.cache, world.stage.hUpdate)
+		world.stage.cache = joinFunction(world.stage.cache, world.stage.hUpdate);
 		window.addEventListener('resize', world.stage.hUpdate);
 		world.stage.hUpdate();
 	});
@@ -53,11 +53,11 @@
 			canvas.height = stage.hCanvasHeight;
 			canvas.width = stage.hCanvasWidth;
 
-			let scale = canvas.offsetWidth / canvas.width;
+			let scale = canvas.offsetWidth * window.devicePixelRatio / canvas.width;
 			stage.hCanvasScale = scale;
 
-			canvas.height = canvas.offsetHeight;
-			canvas.width = canvas.offsetWidth;
+			canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+			canvas.width = canvas.offsetWidth * window.devicePixelRatio;
 
 			stage.x = stage.hXPx + (stage.hX * scale);
 			stage.y = stage.hYPx + (stage.hY * scale);
