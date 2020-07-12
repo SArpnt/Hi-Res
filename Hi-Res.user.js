@@ -2,7 +2,7 @@
 // @name         Hi-Res
 // @namespace    http://tampermonkey.net/
 // @run-at       document-start
-// @version      5.3.2
+// @version      5.3.3
 // @description  no more blocky blur
 // @author       SArpnt
 // @match        https://boxcritters.com/play/
@@ -61,8 +61,9 @@
 			let scale = canvas.offsetWidth * window.devicePixelRatio / canvas.width;
 			stage.hCanvasScale = scale;
 
+			let temp = canvas.offsetWidth * window.devicePixelRatio;
 			canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-			canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+			canvas.width = temp;
 
 			stage.x = stage.hXPx + (stage.hX * scale);
 			stage.y = stage.hYPx + (stage.hY * scale);
