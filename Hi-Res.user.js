@@ -2,7 +2,7 @@
 // @name         Hi-Res
 // @namespace    http://tampermonkey.net/
 // @run-at       document-start
-// @version      5.4.0
+// @version      5.5.0
 // @description  no more blocky blur
 // @author       SArpnt
 // @match        https://boxcritters.com/play/
@@ -20,6 +20,29 @@
 
 (function () {
 	'use strict';
+	function getZoom() {
+		if (window.safari) {
+			/**
+			 * terrible browser makes me write terrible code that breaks in every edge case
+			 * credit to p1 for making the first draft and putting up with safari
+			 */
+			let tabBar = ( // fullscreen detector
+				window.screenLeft == 0 &&
+				window.screenTop == 0 &&
+				window.outerHeight == screen.height &&
+				window.outerWidth == screen.width
+			) ? 0 : 38;
+
+			let ratio = Math.min(
+				(window.outerHeight - tabBar) / window.innerHeight, // height
+				window.outerWidth / window.innerWidth // width
+			);
+
+			return [.5, .75, .85, 1, 1.15, 1.25, 1.5, 1.75, 2, 2.5, 3] // zoom levels
+				.reduce((a, b) => ratio < b ? a : b);
+		} else
+			return devicePixelRatio; // every sane browser
+	}
 	cardboard.on('worldStageCreated', function () {
 		let s = world.stage;
 		s.hX = s.x;
@@ -40,15 +63,16 @@
 		s.hiRes = true;
 		s.hUpdate = function () {
 			let canvas = s.canvas;
+			let dpr = getZoom()
 
 			canvas.height = s.hCanvasHeight;
 			canvas.width = s.hCanvasWidth;
 
-			let scale = canvas.offsetWidth * window.devicePixelRatio / canvas.width;
+			let scale = canvas.offsetWidth * dpr / canvas.width;
 			s.hCanvasScale = scale;
 
-			let temp = canvas.offsetWidth * window.devicePixelRatio;
-			canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+			let temp = canvas.offsetWidth * dpr;
+			canvas.height = canvas.offsetHeight * dpr;
 			canvas.width = temp;
 
 			s.x = s.hXPx + (s.hX * scale);
