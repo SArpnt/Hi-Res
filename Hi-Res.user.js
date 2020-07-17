@@ -63,7 +63,7 @@
 		s.hiRes = true;
 		s.hUpdate = function () {
 			let canvas = s.canvas;
-			let dpr = getZoom()
+			let dpr = getZoom();
 
 			canvas.height = s.hCanvasHeight;
 			canvas.width = s.hCanvasWidth;
