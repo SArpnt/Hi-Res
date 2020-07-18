@@ -2,7 +2,7 @@
 // @name         Hi-Res
 // @namespace    http://tampermonkey.net/
 // @run-at       document-start
-// @version      5.5.0
+// @version      5.5.1
 // @description  no more blocky blur
 // @author       SArpnt
 // @match        https://boxcritters.com/play/
@@ -20,6 +20,8 @@
 
 (function () {
 	'use strict';
+	cardboard.register('hiRes');
+
 	function getZoom() {
 		if (window.safari) {
 			/**
