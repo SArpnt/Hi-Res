@@ -12,9 +12,8 @@
 // @match        https://boxcritters.com/play/index.html?*
 // @match        https://boxcritters.com/play/index.html#*
 // @grant        none
-// @require      https://code.jquery.com/jquery-3.5.1.min.js
-// @require      https://github.com/sarpnt/joinFunction/raw/master/script.js
-// @require      https://github.com/sarpnt/EventHandler/raw/master/script.js
+// @require      https://github.com/SArpnt/joinFunction/raw/master/script.js
+// @require      https://github.com/SArpnt/EventHandler/raw/master/script.js
 // @require      https://github.com/SArpnt/cardboard/raw/master/script.user.js
 // ==/UserScript==
 
@@ -106,7 +105,7 @@
 			/*
 			cardboard.on('runScriptShowGame', function () {
 				showGame = joinFunction(showGame, function () {
-					s.hXPx = $('#game').width();
+					s.hXPx = document.getElementById('game').width();
 					world.stage.hWidthPx = -world.stage.hXPx;
 					world.stage.hUpdate();
 					world.stage.room.focus();
