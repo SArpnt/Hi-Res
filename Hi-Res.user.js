@@ -1,17 +1,21 @@
 // ==UserScript==
 // @name         Hi-Res
-// @namespace    http://tampermonkey.net/
-// @run-at       document-start
-// @version      5.5.1
 // @description  no more blocky blur
 // @author       SArpnt
+// @version      5.5.2
+// @namespace    https://boxcrittersmods.ga/authors/sarpnt/
+// @homepage     https://boxcrittersmods.ga/mods/hi-res/
+// @updateURL    https://github.com/SArpnt/Hi-Res/raw/master/Hi-Res.user.js
+// @downloadURL  https://github.com/SArpnt/Hi-Res/raw/master/Hi-Res.user.js
+// @supportURL   https://github.com/SArpnt/Hi-Res/issues
+// @run-at       document-start
+// @grant        none
 // @match        https://boxcritters.com/play/
 // @match        https://boxcritters.com/play/?*
 // @match        https://boxcritters.com/play/#*
 // @match        https://boxcritters.com/play/index.html
 // @match        https://boxcritters.com/play/index.html?*
 // @match        https://boxcritters.com/play/index.html#*
-// @grant        none
 // @require      https://github.com/SArpnt/joinFunction/raw/master/script.js
 // @require      https://github.com/SArpnt/EventHandler/raw/master/script.js
 // @require      https://github.com/SArpnt/cardboard/raw/master/script.user.js
@@ -44,8 +48,7 @@
 		} else
 			return devicePixelRatio; // every sane browser
 	}
-	cardboard.on('worldStageCreated', function () {
-		let s = world.stage;
+	cardboard.on('worldStageCreated', function (world, s) {
 		s.hX = s.x;
 		s.hY = s.y;
 		s.hXPx = 0;
