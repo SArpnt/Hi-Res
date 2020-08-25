@@ -2,7 +2,7 @@
 // @name         Hi-Res
 // @description  no more blocky blur
 // @author       SArpnt
-// @version      5.5.2
+// @version      5.6.0
 // @namespace    https://boxcrittersmods.ga/authors/sarpnt/
 // @homepage     https://boxcrittersmods.ga/mods/hi-res/
 // @updateURL    https://github.com/SArpnt/Hi-Res/raw/master/Hi-Res.user.js
@@ -48,6 +48,18 @@
 		} else
 			return devicePixelRatio; // every sane browser
 	}
+	cardboard.on('loadScriptMobile', function (t) {
+		t.innerHTML = t.innerHTML.replace(
+			/stage\.width/,
+			`stage.hWidth`
+		).replace(
+			/ctx\.canvas\.width/,
+			`world.stage.hCanvasWidth`
+		).replace(
+			/world\.stage\.room\.focus\([^\)]*\)/,
+			`(world.stage.hUpdate(),world.stage.room.focus())`
+		);
+	});
 	cardboard.on('worldStageCreated', function (world, s) {
 		s.hX = s.x;
 		s.hY = s.y;
@@ -105,16 +117,6 @@
 			});
 			window.addEventListener('resize', s.hUpdate);
 			s.hUpdate();
-			/*
-			cardboard.on('runScriptShowGame', function () {
-				showGame = joinFunction(showGame, function () {
-					s.hXPx = document.getElementById('game').width();
-					world.stage.hWidthPx = -world.stage.hXPx;
-					world.stage.hUpdate();
-					world.stage.room.focus();
-				});
-			});
-			*/
 		});
 	});
 })();
