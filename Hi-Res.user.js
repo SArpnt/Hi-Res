@@ -2,7 +2,7 @@
 // @name         Hi-Res
 // @description  no more blocky blur
 // @author       SArpnt
-// @version      5.6.0
+// @version      5.7.0
 // @namespace    https://boxcrittersmods.ga/authors/sarpnt/
 // @homepage     https://boxcrittersmods.ga/mods/hi-res/
 // @updateURL    https://github.com/SArpnt/Hi-Res/raw/master/Hi-Res.user.js
@@ -48,6 +48,23 @@
 		} else
 			return devicePixelRatio; // every sane browser
 	}
+	cardboard.on('runScriptCreatejs', function () {
+		createjs.DisplayObject.prototype.cache = joinFunction(createjs.DisplayObject.prototype.cache, function (_a, _b, _c, _d, _e, _f, h) {
+			let bc = this.bitmapCache;
+			if (h) {
+				if (typeof h == 'function')
+					bc.hUpdate = h;
+			} else {
+				bc.hScale = bc.scale;
+				bc.hUpdate = function (scale) {
+					bc.scale = bc.hScale * scale;
+				};
+			}
+			cardboard.on('mod-hiRes-hUpdate', bc.hUpdate);
+			if (world.stage.hCanvasScale)
+				bc.hUpdate(world.stage.hCanvasScale);
+		});
+	});
 	cardboard.on('loadScriptMobile', function (t) {
 		t.innerHTML = t.innerHTML.replace(
 			/stage\.width/,
@@ -97,24 +114,9 @@
 			s.height = s.hHeight + (s.hHeightPx / scale);
 			s.scale = s.hScale * scale;
 
-			if (s.bitmapCache)
-				if (s.bitmapCache.hScale)
-					s.bitmapCache.scale = s.bitmapCache.hScale * scale;
-				else if (s.bitmapCache.hUpdate)
-					s.bitmapCache.hUpdate();
+			cardboard.emit('mod-hiRes-hUpdate', scale);
 		};
 		cardboard.on('login', function () {
-			s.cache = joinFunction(s.cache, function (_a, _b, _c, _d, _e, _f, h) {
-				if (h) {
-					if (typeof h == 'function') {
-						s.bitmapCache.hUpdate = h;
-						s.bitmapCache.hUpdate();
-					}
-				} else {
-					s.bitmapCache.hScale = s.bitmapCache.scale;
-					s.bitmapCache.scale = s.bitmapCache.hScale * s.hCanvasScale;
-				}
-			});
 			window.addEventListener('resize', s.hUpdate);
 			s.hUpdate();
 		});
