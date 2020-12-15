@@ -2,7 +2,7 @@
 // @name         Hi-Res
 // @description  no more blocky blur
 // @author       SArpnt
-// @version      5.7.0
+// @version      5.7.1
 // @namespace    https://boxcrittersmods.ga/authors/sarpnt/
 // @homepage     https://boxcrittersmods.ga/mods/hi-res/
 // @updateURL    https://github.com/SArpnt/Hi-Res/raw/master/Hi-Res.user.js
@@ -10,12 +10,7 @@
 // @supportURL   https://github.com/SArpnt/Hi-Res/issues
 // @run-at       document-start
 // @grant        none
-// @match        https://boxcritters.com/play/
-// @match        https://boxcritters.com/play/?*
-// @match        https://boxcritters.com/play/#*
-// @match        https://boxcritters.com/play/index.html
-// @match        https://boxcritters.com/play/index.html?*
-// @match        https://boxcritters.com/play/index.html#*
+// @include      /^https:\/\/boxcritters\.com\/play\/(index\.html)?([\?#].*)?$/
 // @require      https://github.com/SArpnt/joinFunction/raw/master/script.js
 // @require      https://github.com/SArpnt/EventHandler/raw/master/script.js
 // @require      https://github.com/SArpnt/cardboard/raw/master/script.user.js
